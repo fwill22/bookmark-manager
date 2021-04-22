@@ -2,27 +2,34 @@ require 'pg'
 
 class Bookmark
   attr_accessor :bookmarks
+  attr_reader :id, :title, :url
 
+  def initialize(id:, title:, url:)
+    @id = id
+    @title = title
+    @url = url
+  end
+  
   def self.all
     if ENV['ENVIRONMENT'] == 'test'
-      connection = PG.connect(dbname: 'bookmark_manager_test', user: 'postgres', password: 'postgres')
+      connection = PG.connect(dbname: 'bookmark_manager_test')
     else
-      connection = PG.connect(dbname: 'bookmark_manager', user: 'postgres', password: 'postgres')
+      connection = PG.connect(dbname: 'bookmark_manager')
     end
 
     bookmarks = connection.exec("SELECT * FROM bookmarks;")
-    bookmarks.map { |bookmark| bookmark['url'] }
-  end
-
-  def self.create(url:)
-    if ENV['ENVIRONMENT'] == 'test'
-      connection = PG.connect(dbname: 'bookmark_manager_test', user: 'postgres', password: 'postgres')
-    else
-      connection = PG.connect(dbname: 'bookmark_manager', user: 'postgres', password: 'postgres')
+    bookmarks.map do |bookmark| 
+      Bookmark.new(id: bookmark['id'], title: bookmark['title'], url: bookmark['url']) 
     end
-  
-    connection.exec("INSERT INTO bookmarks (url) VALUES('#{url}')")
-    
   end
 
+  def self.create(title:, url:)
+    if ENV['ENVIRONMENT'] == 'test'
+      connection = PG.connect(dbname: 'bookmark_manager_test')
+    else
+      connection = PG.connect(dbname: 'bookmark_manager')
+    end
+    bookmark = connection.exec("INSERT INTO bookmarks (title, url) VALUES('#{title}', '#{url}') RETURNING id, url, title;")
+    Bookmark.new(id: bookmark[0]['id'], title: bookmark[0]['title'], url: bookmark[0]['url'])
+  end
 end

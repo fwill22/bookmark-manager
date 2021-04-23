@@ -46,12 +46,17 @@ I'd like to see list of saved bookmarks
 ```
 ### User Story 2
 ```
-Add new bookmarks
-
 As a time-pressed user
 So that I can save a website
 I would like to add the site's address and title to bookmark manager
 ```
+### User Story 3
+```
+As a user
+So I can remove my bookmark from Bookmark Manager
+I want to delete a bookmark
+```
+
 
 #### Domain Model
 
@@ -108,3 +113,9 @@ I would like to add the site's address and title to bookmark manager
   3. a bookmark view
   
   ![user_story_1.png](./public/images/user_story_1.png)
+
+#### User Story 2 Features: 
+  1. 
+
+#### User Story 3 Features:
+  1. 

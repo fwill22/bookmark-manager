@@ -27,3 +27,8 @@ Specification:
    As a user
    So I can remove my bookmark from Bookmark Manager
    I want to delete a bookmark
+
+4. Update bookmarks
+   As a user
+   So I can change a bookmark in Bookmark Manager
+   I want to update a bookmark
